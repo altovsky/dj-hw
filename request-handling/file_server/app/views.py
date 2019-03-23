@@ -41,9 +41,7 @@ class FileList(TemplateView):
 def file_content(request, name):
     # Реализуйте алгоритм подготавливающий контекстные данные для шаблона по примеру:
     with open(os.path.join(settings.FILES_PATH, name), 'r', encoding='utf-8') as server_file:
-        server_file_content = ''
-        for line in server_file.readlines():
-            server_file_content += line
+        server_file_content = server_file.read()
 
     return render(
         request,
