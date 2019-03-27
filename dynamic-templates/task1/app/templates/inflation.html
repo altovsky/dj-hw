@@ -1,28 +1,35 @@
-<!DOCTYPE html>{% load static %}
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Инфляция в России</title>
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+{% extends 'base.html' %}
 
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  </head>
+{% block content %}
+  <div class="row">
+    <h1 class="col s12">Инфляция в России</h1>
+    <ul class="col s12 m8">
+      <!-- Ваша логика -->
 
-  <body>
-    {% block content %}
-      <div class="row">
-        <h1 class="col s12">Инфляция в России</h1>
-        <ul class="col s12 m8">
-        
-        <!-- Ваша логика -->
+      <table>
+        <thead>
+          <tr>
+            {% for fn in field_names %}
+              {% if forloop.last %}
+                <th bgcolor="#808080">Всего</th>
+              {% else %}
+                <th>{{ fn }}</th>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
 
-        </ul>
-      </div>
-    {% endblock %}
+            {% for row in field_values %}
+              <tr>
+                {% for field in row %}
+                  <td bgcolor={{ field.color }}>{{ field.value }}</td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
 
-  </body>
-</html>
+        </tbody>
+      </table>
+    </ul>
+  </div>
+{% endblock %}
