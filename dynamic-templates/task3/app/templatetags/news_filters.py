@@ -70,7 +70,7 @@ def format_selftext(value, count):
         for i in right:
             right_val += f'{i} '
 
-        ret_value = f'{left_val}...{right_val}'
+        ret_value = f'{left_val[0:-1]}...{right_val}'
 
     else:
         ret_value = value
