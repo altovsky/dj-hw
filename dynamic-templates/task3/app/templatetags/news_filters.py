@@ -25,7 +25,10 @@ def format_date(value):
 
 # необходимо добавить фильтр для поля `score`
 @register.filter
-def score_derivative(value):
+def score_derivative(value, default_value):
+
+    if not value:
+        value = default_value
 
     if value < 5:
         ret_value = 'все плохо'
@@ -51,7 +54,7 @@ def format_num_comments(value):
 
 
 @register.filter
-def format_selftext(value, count=10):
+def format_selftext(value, count):
 
     split_value = value.split(' ')
     split_len = len(split_value)
