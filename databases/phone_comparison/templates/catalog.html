@@ -7,5 +7,20 @@
         <div class="header">
             <h1>Сравнение телефонов</h1>
         </div>
+        <div>
+          {% for phone in phones %}
+            <p>{{ phone}}</p>
+            <p>{{ phone.cost}}</p>
+            <p>{{ phone.os}}</p>
+            <p>{{ phone.screen_res}}</p>
+            <p>{{ phone.camera_res}}</p>
+            <p>{{ phone.mem}}</p>
+            <p>{{ phone.processor}}</p>
+            <p>qq{{ phone.xiaomi.glonas}}</p>
+            <p>qqq{{ phone.xiaomi.beidou}}</p>
+            <p>!!! {{ phone.xiaomi.a2dp}}</p>
+            <p>{{ phone.alcatel.a2dp}}</p>
+          {% endfor %}
+        </div>
     </div>
 {% endblock %}

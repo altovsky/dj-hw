@@ -11,9 +11,10 @@ class FileList(TemplateView):
     
     def get_context_data(self, date=None):
         # Реализуйте алгоритм подготавливающий контекстные данные для шаблона по примеру:
+
         if date:
-            date = datetime.datetime.strptime(date, '%Y-%m-%d')
-            date = date.date()
+            date = date[:10]
+            file_datetime = datetime.datetime.strptime(date[:10], '%Y-%m-%d')
 
         file_list = os.listdir(f'{settings.FILES_PATH}')
         file_info_list = []
@@ -22,12 +23,14 @@ class FileList(TemplateView):
             file_stat = os.stat(os.path.join(settings.FILES_PATH, file))
             file_info = {
                 'name': file,
-                'ctime': datetime.date.fromtimestamp(file_stat.st_ctime),
-                'mtime': datetime.date.fromtimestamp(file_stat.st_mtime),
+                'ctime': datetime.datetime.fromtimestamp(file_stat.st_ctime),
+                'mtime': datetime.datetime.fromtimestamp(file_stat.st_mtime),
             }
 
+            # print('!!!!!', date, datetime.date.fromtimestamp(file_stat.st_ctime))
+            print('!!!!!', date, file_info['ctime'])
             if date:
-                if date == file_info['ctime']:
+                if file_datetime.date() == file_info['ctime'].date():
                     file_info_list.append(file_info)
             else:
                 file_info_list.append(file_info)

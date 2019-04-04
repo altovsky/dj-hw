@@ -3,12 +3,19 @@
 
 {% block title %}Телефон{% endblock %}
 {% block content %}
-    <div class="container">
-        <div class="header">
-            <h1>Телефон</h1>
-        </div>
-        <div class="content">
-
-        </div>
+  <div class="container">
+    <div class="header">
+      <h1><a href="/catalog">Телефон</a></h1>
     </div>
+    <div class="content">
+      <div class="h1 text-primary">{{ phone.name }}</div>
+      <div>Стоимость: {{ phone.price }} ₽</div>
+      <div>Дата выхода: {{ phone.release_date }}</div>
+      <div>Наличие LTE: {{ phone.lte_exists }}</div>
+      <div>
+        <img class="h-auto" src="{{ phone.image }}" height="500">
+      </div>
+
+    </div>
+  </div>
 {% endblock %}
