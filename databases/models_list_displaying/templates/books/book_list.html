@@ -16,5 +16,23 @@
         </div>
       {% endfor %}
     </div>
+    <div>
+      {% if p %}
+        <a>
+          {% if prev_page_date %}
+            <a href="{{ site_url }}{{ prev_page_date }}">{{ prev_page_date }}</a>
+{#          {% else %}#}
+{#            N!#}
+          {% endif %}
+        </a>
+        <a>
+          {% if next_page_date %}
+            <a href="{{ site_url }}{{ next_page_date }}">{{ next_page_date }}</a>
+{#          {% else %}#}
+{#            N!#}
+          {% endif %}
+        </a>
+      {% endif %}
+    </div>
   </div>
 {% endblock %}
