@@ -12,25 +12,21 @@ class InflationView(TemplateView):
     def get(self, request, *args, **kwargs):
         # чтение csv-файла и заполнение контекста
         context = super().get_context_data(**kwargs)
+        month_set = ('Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек')
 
         with open(os.path.join(settings.BASE_DIR, 'inflation_russia.csv'), 'r') as inflation_file:
             file_reader = csv.DictReader(inflation_file, delimiter=';')
             file_fieldnames = file_reader.fieldnames
-            # for row in file_reader:
-            #     print(row)
             value_stack = []
-            # field = {}
 
             for row in file_reader:
                 field_values = []
                 for name in file_fieldnames:
                     field_value = row[name]
                     bg_color = ''
-                    # bg_color = '#ffffff'
                     field = {}
 
-                    if name in ('Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
-                                'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'):
+                    if name in month_set:
 
                         if field_value == '':
                             field_value = '-'
@@ -52,7 +48,6 @@ class InflationView(TemplateView):
 
                 value_stack.append(field_values)
 
-        # print(value_stack)
         context['field_names'] = file_fieldnames
         context['field_values'] = value_stack
 

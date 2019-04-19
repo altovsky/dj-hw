@@ -28,9 +28,8 @@ def format_date(value):
 def score_derivative(value, default_value):
 
     if not value:
-        value = default_value
-
-    if value < 5:
+        ret_value = default_value
+    elif value < 5:
         ret_value = 'все плохо'
     elif -5 <= value < 5:
         ret_value = 'нейтрально'
@@ -58,20 +57,9 @@ def format_selftext(value, count):
 
     split_value = value.split(' ')
     split_len = len(split_value)
+
     if split_len > count:
-        left_val = ''
-        right_val = ''
-        left = split_value[:count]
-        right = split_value[(split_len-count):split_len]
-
-        for i in left:
-            left_val += f'{i} '
-
-        for i in right:
-            right_val += f'{i} '
-
-        ret_value = f'{left_val[0:-1]}...{right_val}'
-
+        ret_value = f"{' '.join(split_value[:count])}...{' '.join(split_value[-count:])}"
     else:
         ret_value = value
 
