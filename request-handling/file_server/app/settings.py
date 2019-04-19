@@ -85,6 +85,8 @@ STATICFILES_DIRS = [
 FILES_PATH = os.path.join(BASE_DIR, 'files')
 
 SECRET_KEY = 'put your secret here'
+# DEBUG = False
+# ALLOWED_HOSTS = ['127.0.0.1']
 DEBUG = True
 
 try:

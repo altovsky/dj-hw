@@ -1,5 +1,6 @@
 import datetime
 
+from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.conf import settings
@@ -41,6 +42,11 @@ class FileList(TemplateView):
 
 def file_content(request, name):
     # Реализуйте алгоритм подготавливающий контекстные данные для шаблона по примеру:
+
+    if not os.path.exists(os.path.join(settings.FILES_PATH, name)):
+        raise Http404('Такого файла нет. ❹☹❹ '
+                      'Но если в settings.py указать DEBUG = False, то это сообщение не отображается.')
+
     with open(os.path.join(settings.FILES_PATH, name), 'r', encoding='utf-8') as server_file:
         server_file_content = server_file.read()
 

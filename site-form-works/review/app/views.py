@@ -21,12 +21,17 @@ class ProductView(DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
-        # pass
         if request.method == 'POST':
             form = ReviewForm(request.POST)
             if form.is_valid():
-                return
+                # if not request.session['reviewed_products']:
+                print(request.session['reviewed_products'])
+                request.session['reviewed_products'] = []
+                request.session['reviewed_products'].append(Product.pk)
+                print(form.is_valid())
 
+                pass
+                return redirect('/')
         else:
             form = ReviewForm()
 
