@@ -15,8 +15,18 @@ class ProductView(DetailView):
     model = Product
 
     def get_context_data(self, **kwargs):
+        prod_key = kwargs['object'].id
+
         context = super().get_context_data(**kwargs)
+
+        if 'reviewed_products' not in self.request.session:
+            self.request.session['reviewed_products'] = []
+
+        if prod_key in self.request.session['reviewed_products']:
+            return context
+
         context['form'] = ReviewForm
+        context['reviews'] = Review.objects.filter(product_id=prod_key)
 
         return context
 
@@ -24,20 +34,18 @@ class ProductView(DetailView):
         if request.method == 'POST':
             form = ReviewForm(request.POST)
             if form.is_valid():
-                # if not request.session['reviewed_products']:
-                print(request.session['reviewed_products'])
-                request.session['reviewed_products'] = []
-                request.session['reviewed_products'].append(Product.pk)
-                print(form.is_valid())
+                prod_key = int(kwargs['pk'])
 
-                pass
+                rev = Review(text=form.cleaned_data['text'])
+                prod = Product.objects.get(pk=prod_key)
+                rev.product = prod
+                rev.save()
+                
+                if prod_key not in request.session['reviewed_products']:
+                    request.session['reviewed_products'].append(prod_key)
+
                 return redirect('/')
         else:
             form = ReviewForm()
 
         return form
-
-    # def get_queryset(self):
-    #
-    #     r = self.model.objects.prefetch_related()
-    #     return r
