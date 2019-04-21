@@ -43,6 +43,7 @@ class ProductView(DetailView):
                 
                 if prod_key not in request.session['reviewed_products']:
                     request.session['reviewed_products'].append(prod_key)
+                    request.session.modified = True
 
                 return redirect('/')
         else:
