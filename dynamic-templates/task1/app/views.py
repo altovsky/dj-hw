@@ -12,7 +12,7 @@ class InflationView(TemplateView):
     def get(self, request, *args, **kwargs):
         # чтение csv-файла и заполнение контекста
         context = super().get_context_data(**kwargs)
-        month_set = ('Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек')
+        month_set = {'Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'}
 
         with open(os.path.join(settings.BASE_DIR, 'inflation_russia.csv'), 'r') as inflation_file:
             file_reader = csv.DictReader(inflation_file, delimiter=';')
