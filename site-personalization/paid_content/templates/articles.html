@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Журнал{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="header">
+      <h1>Список статей</h1>
+    </div>
+    <div class="articles">
+      {% for article in articles %}
+      <h3>{{ article.title }}</h3>
+{#      <h3>Статья 2</h3>#}
+{#      <h3>Статья 3</h3>#}
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
