@@ -59,7 +59,7 @@ class PlayerGameInfo(models.Model):
     # )
     second_player = models.ManyToManyField(
         Player,
-        default=0,
+        # default=0,
     )
 
     class Meta:

@@ -12,20 +12,26 @@
 
       {% if not is_creator %}
         <p class="alert-danger">{{ game_massage }}</p>
-        <form method="post">
-          <label for="guessing_number">Введите число</label>
-          <input name="guessing_number" type="number" required="True" min="1" max="10">
-          <button type="submit">Проверить</button>
-          {% csrf_token %}
-        </form>
+
+        {% if not is_over %}
+          <form method="post">
+            <label for="guessing_number">Введите число</label>
+            <input name="guessing_number" type="number" required="True" min="1" max="10">
+            <button type="submit">Проверить</button>
+            {% csrf_token %}
+          </form>
+        {% endif %}
+
         <p>Количество сделанных попыток: {{ player_attempts }}</p>
       {% else %}
+
         {% if is_over %}
           <p>Ваше число угадали с {{ player_attempts }} попыток</p>
         {% else %}
           <p>Загадано число: {{ number }}</p>
           <p>Количество попыток второго игрока: {{ player_attempts }}</p>
         {% endif %}
+
       {% endif %}
     </div>
   </div>
