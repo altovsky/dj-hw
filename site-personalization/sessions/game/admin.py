@@ -11,10 +11,11 @@ class PlayerAdmin(admin.ModelAdmin):
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'number', 'state')
+    list_display = ('pk', 'number', 'game_state')
     ordering = ['-pk']
 
 
 @admin.register(PlayerGameInfo)
 class PlayerGameInfoAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'player_attempts')
     pass

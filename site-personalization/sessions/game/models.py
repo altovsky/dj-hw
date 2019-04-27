@@ -21,10 +21,20 @@ class Game(models.Model):
 
     """
     # identifier = models.IntegerField(verbose_name='Идентификатор игры')
-    # creator = models.CharField(max_length=96, verbose_name='Создатель игры')
-    # opponent = models.CharField(max_length=96, verbose_name='Второй игрок')
+    # creator = models.ForeignKey(
+    #     Player,
+    #     on_delete=models.CASCADE,
+    #     verbose_name='Создатель игры'
+    # )
+    # opponent = models.ForeignKey(
+    #     Player,
+    #     related_name='creators',
+    #     on_delete=models.CASCADE,
+    #     verbose_name='Второй игрок'
+    # )
     number = models.IntegerField(verbose_name='Число')
-    state = models.IntegerField(default=0, verbose_name='Код состояния')
+
+    game_state = models.IntegerField(default=0, verbose_name='Код состояния')
 
     class Meta:
         verbose_name = 'Игра'
@@ -35,9 +45,23 @@ class Game(models.Model):
 
 
 class PlayerGameInfo(models.Model):
-    creator = models.ManyToManyField(Player, related_name='creators')
-    opponent = models.ManyToManyField(Player, related_name='opponents')
-    play = models.ManyToManyField(Game, related_name='games')
+    # creators = models.ManyToManyField(Player)  #, related_name='creators')
+    # opponents = models.ManyToManyField(Player)  #, related_name='opponents')
+    play = models.ForeignKey(Game, on_delete=models.CASCADE)  #, related_name='games')
+    # games = models.ManyToManyField(Game)  #, related_name='games')
     # creator = models.CharField(max_length=96, verbose_name='Создатель игры')
     # number = models.IntegerField(max_length=10, verbose_name='Число')
-    attempts = models.IntegerField(verbose_name='Число попыток')
+    player_attempts = models.IntegerField(verbose_name='Число попыток', default=0)
+    # second_player = models.ForeignKey(
+    #     Player,
+    #     default=0,
+    #     on_delete=models.CASCADE
+    # )
+    second_player = models.ManyToManyField(
+        Player,
+        default=0,
+    )
+
+    class Meta:
+        verbose_name = 'Статистика игры'
+        verbose_name_plural = 'Статистика игр'

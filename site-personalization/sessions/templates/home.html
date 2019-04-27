@@ -1,12 +1,32 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Угадай число{% endblock %}
+{% block title %}Угадай число
+{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="header">
-            <h1>Игра "Угадай число"</h1>
-        </div>
+  <div class="container bg-light">
+    <div class="header">
+      <h1>Игра "Угадай число"</h1>
+      <h3>{{ Who }}</h3>
+
+      {% if not is_creator %}
+        <p class="alert-danger">{{ game_massage }}</p>
+        <form method="post">
+          <label for="guessing_number">Введите число</label>
+          <input name="guessing_number" type="number" required="True" min="1" max="10">
+          <button type="submit">Проверить</button>
+          {% csrf_token %}
+        </form>
+        <p>Количество сделанных попыток: {{ player_attempts }}</p>
+      {% else %}
+        {% if is_over %}
+          <p>Ваше число угадали с {{ player_attempts }} попыток</p>
+        {% else %}
+          <p>Загадано число: {{ number }}</p>
+          <p>Количество попыток второго игрока: {{ player_attempts }}</p>
+        {% endif %}
+      {% endif %}
     </div>
+  </div>
 {% endblock %}
