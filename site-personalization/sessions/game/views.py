@@ -6,22 +6,15 @@ from django.conf import settings
 
 def show_home(request):
 
-    context = {}
-
+    template_name = 'home.html'
     current_session = request.session
     current_session.save()
-    current_player = request.session.session_key
+    user_key = request.session.session_key
 
-    # Проверяем, есть ли такой пользователь
-    try:
-        game_player = Player.objects.get(user_session=current_player)
+    # Если нет такого пользователя, то создаем
+    user_profile = Player.objects.get_or_create(user_session=user_key)
 
-    # Если нет
-    except Player.DoesNotExist:
-
-        # То создаем
-        new_player = Player(user_session=current_player)
-        new_player.save()
+    context = {}
 
     # Если пользователь еще не в игре
     if 'game_identifier' not in request.session:
@@ -50,7 +43,7 @@ def show_home(request):
             # Значит это второй игрок
 
             # Сохраним второго игрока
-            game_player = Player.objects.get(user_session=current_player)
+            game_player = Player.objects.get(user_session=user_key)
             pgi = PlayerGameInfo(play=current_game)
             pgi.save()
             pgi.second_player.add(game_player)
@@ -131,7 +124,7 @@ def show_home(request):
 
     ren = render(
         request,
-        'home.html',
+        template_name,
         context,
     )
 
