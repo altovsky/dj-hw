@@ -1,23 +1,23 @@
 from django.shortcuts import render
 
+from django.conf import settings
 from .models import Profile, Article
 
 
 def show_articles(request):
 
     template_name = 'articles.html'
+    current_session = request.session
+    current_session.save()
+    user_key = request.session.session_key
+
     context = dict()
     context['articles'] = Article.objects.all()
 
-    if 'sessionid' not in request.COOKIES:
-        is_new_user = True
-        user_is_signed = False
-    else:
-        is_new_user = False
-        ud = Profile.objects.get(user_session=request.COOKIES['sessionid'])
-        user_is_signed = ud.signed
+    user_profile = Profile.objects.get_or_create(user_session=user_key)
+    context['is_signed'] = user_profile[0].signed
 
-    context['user_is_signed'] = user_is_signed
+    context['site_path'] = f"http://{request.META['HTTP_HOST']}{request.META['PATH_INFO']}"
 
     req = render(
         request,
@@ -25,15 +25,25 @@ def show_articles(request):
         context,
     )
 
-    if is_new_user:
-        new_user = Profile(user_session=request.COOKIES['sessionid'])
-        new_user.save()
-
     return req
 
 
 def show_article(request, id):
+
+    template_name = 'article.html'
+    current_session = request.session
+    current_session.save()
+    user_key = request.session.session_key
+
+    context = dict()
+    context['article'] = Article.objects.get(pk=id)
+
+    user_profile = Profile.objects.get_or_create(user_session=user_key)
+    context['is_signed'] = user_profile[0].signed
+    context['path'] = settings.BASE_DIR
+
     return render(
         request,
-        'article.html'
+        template_name,
+        context
     )

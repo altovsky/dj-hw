@@ -5,11 +5,9 @@ from .models import Profile, Article
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    # list_display = ('user_session', 'signed')
-    pass
+    list_display = ('pk', 'user_session', 'signed')
 
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'paid')
-    # pass
+    list_display = ('pk', 'title', 'paid')

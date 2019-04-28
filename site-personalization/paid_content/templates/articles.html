@@ -10,10 +10,21 @@
     </div>
     <div class="articles">
       {% for article in articles %}
-      <h3>{{ article.title }}</h3>
-{#      <h3>Статья 2</h3>#}
-{#      <h3>Статья 3</h3>#}
+        <h3>
+          <a
+              {% if not article.paid or article.paid and is_signed %}
+                href="{{ site_path }}{{ article.pk }}/"
+              {% endif %}
+          >
+            {{ article.title }}
+          </a>
+        </h3>
       {% endfor %}
     </div>
+    {% if not is_signed %}
+      <p class="alert-info">
+        Ссылки на все статьи могут не отображаться, так как вы не подписаны на платный контент.
+      </p>
+    {% endif %}
   </div>
 {% endblock %}
