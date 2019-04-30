@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="header"></div>
+    <h2>Авторизация</h2>
+
+    {% if form.errors %}
+      <p>Логин и/или пароль не верные. Пожалуйста повторите.</p>
+    {% endif %}
+
+    <form class="form-auth" method="post">
+      <span>Имя пользователя:</span>
+      {{ form.username }}<br>
+      <span>Пароль:</span>
+      {{ form.password }}<br>
+      <button type="submit">Войти</button>
+      {% csrf_token %}
+    </form>
+
+  </div>
+{% endblock %}

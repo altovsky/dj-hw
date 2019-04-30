@@ -1,12 +1,21 @@
-{% extends "base.html" %}
-{% load static %}
+{%extends "base.html" %}
+{%load static %}
 
-{% block title %}Главная страница{% endblock %}
+{%block title %}Главная страница{% endblock %}
 
-{% block content %}
-    <div class="container">
-        <div class="header"></div>
-            Привет, <b>гость</b>.<br>
-            Пожалуйста, <a href="/signup">зарегистрируйся</a> или <a href="/login">авторизуйся</a>!
-    </div>
-{% endblock %}
+{%block content %}
+  <div class="container">
+    <div class="header"></div>
+
+    {% if user_name == '' %}
+      Привет, гость.<br>
+      Пожалуйста, <a href="/signup">зарегистрируйтесь</a> или <a href="/login">авторизуйтесь</a>!
+    {% else %}
+      Привет, {{ user_name }}!<br>
+      <button type="button" onclick="location.href='/signup'">Зарегистрироваться</button>
+      <button type="button" onclick="location.href='/login'">Авторизоваться под другим именем</button>
+      <button type="button" onclick="location.href='/logout'">Выйти</button>
+    {% endif %}
+
+  </div>
+{%endblock %}
