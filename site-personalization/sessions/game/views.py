@@ -122,10 +122,8 @@ def show_home(request):
                     context['game_massage'] = 'Введенное число больше угадываемого.'
                     context['is_over'] = False
 
-    ren = render(
+    return render(
         request,
         template_name,
         context,
     )
-
-    return ren

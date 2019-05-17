@@ -12,8 +12,7 @@
           Вы не можете просматривать эту статью, так как вы не подписаны на платный контент.
         </p>
       {% else %}
-        <img class="parallax" src="{{ article.img }}"
-             alt="{{ article.title }}">
+        <img src={{ article.img }} alt="{{ article.title|upper }}">
         <p>{{ article.text }}</p>
       {% endif %}
     </div>

@@ -13,7 +13,8 @@
         <h3>
           <a
               {% if not article.paid or article.paid and is_signed %}
-                href="{{ site_path }}{{ article.pk }}/"
+                href="{{ article.pk }}/"
+{#                href="{{ site_path }}{{ article.pk }}/"#}
               {% endif %}
           >
             {{ article.title }}
