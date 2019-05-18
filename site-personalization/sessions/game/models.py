@@ -32,9 +32,9 @@ class Game(models.Model):
 
 
 class PlayerGameInfo(models.Model):
-    play = models.ForeignKey(Game, on_delete=models.CASCADE)
+    the_game = models.ForeignKey(Game, on_delete=models.CASCADE)
     player_attempts = models.IntegerField(verbose_name='Число попыток', default=0)
-    second_player = models.ManyToManyField(
+    players = models.ManyToManyField(
         Player,
     )
 
