@@ -12,9 +12,9 @@
       Пожалуйста, <a href="/signup">зарегистрируйтесь</a> или <a href="/login">авторизуйтесь</a>!
     {% else %}
       Привет, {{ user_name }}!<br>
-      <button type="button" onclick="location.href='/signup'">Зарегистрироваться</button>
-      <button type="button" onclick="location.href='/login'">Авторизоваться под другим именем</button>
-      <button type="button" onclick="location.href='/logout'">Выйти</button>
+      <a href='/signup'><button type="button">Зарегистрироваться</button></a>
+      <a href='/login'><button type="button">Авторизоваться под другим именем</button></a>
+      <a href='/logout'><button type="button">Выйти</button></a>
     {% endif %}
 
   </div>
