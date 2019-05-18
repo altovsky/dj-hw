@@ -59,50 +59,54 @@ def show_home(request):
             context['is_over'] = False
             context['player_attempts'] = 0
 
+        # Если очередная попытка
         elif request.method == 'POST':
             p_g_info.player_attempts += 1
             p_g_info.save()
             context['player_attempts'] = p_g_info.player_attempts
 
+            # Если угадали число
             if int(request.POST['guessing_number']) == gm.number:
+                # то завершаем игру
                 del request.session['game_creator']
                 del request.session['game_identifier']
-                context['game_massage'] = 'Вы угадали загаданное число!'
+                context['game_message'] = 'Вы угадали загаданное число!'
                 gm.game_state = 2
                 gm.save()
                 context['is_over'] = True
 
+            # Если число меньше
             elif int(request.POST['guessing_number']) < gm.number:
-                context['game_massage'] = 'Введенное число меньше угадываемого.'
+                context['game_message'] = 'Введенное число меньше угадываемого.'
                 context['is_over'] = False
 
+            # Если число больше
             else:
-                context['game_massage'] = 'Введенное число больше угадываемого.'
+                context['game_message'] = 'Введенное число больше угадываемого.'
                 context['is_over'] = False
 
     template_name = 'home.html'
     current_session = request.session
     current_session.save()
     user_key = request.session.session_key
+    context = {}
 
     # Если нет такого пользователя, то создаем
     user_profile = Player.objects.get_or_create(user_session=user_key)
-
-    context = {}
 
     # Если пользователь еще не в игре
     if 'game_identifier' not in request.session:
 
         try:
-            # Ищем уже созданную игру
+            # Ищем уже созданную игру, к которой можно присоединиться
             current_game = Game.objects.get(game_state=0)
 
         except Game.DoesNotExist:
-            # Если нет уже созданной игры, то начинаем новую
+            # Если нельзя присоединиться к уже созданной игры, то создаем новую игру
             start_new_game()
 
         else:
-            # Тогда получаем второго игрока
+            # Тогда присоединяем к игре второго игрока
             get_second_player()
 
         finally:
@@ -116,8 +120,8 @@ def show_home(request):
             p_g_info = PlayerGameInfo.objects.get(the_game=current_session['game_identifier'])
 
         # Попадаем в этот except, если первый игрок (создатель) создал игру,
-        # но второй игрок еще не начал играть и PlayerGameInfo еще не записан
-        # И первый игрок (создатель) зачем-то :-) обновляет страницу.
+        # но второй игрок еще не присоединился к игре и PlayerGameInfo еще не записан
+        # И в этот момент первый игрок (создатель) зачем-то :-) обновляет страницу.
         except PlayerGameInfo.DoesNotExist:
             context['player_attempts'] = 0
 
