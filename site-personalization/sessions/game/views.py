@@ -36,6 +36,7 @@ def get_second_player(request):
     request.session['game_identifier'] = current_game.pk
 
     context['Who'] = f'Угадайте число от 1 до {settings.RANDOM_NUMBER_RANGE}'
+    context['is_creator'] = False
     context['is_over'] = False
     context['player_attempts'] = 0
 

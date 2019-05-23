@@ -5,7 +5,7 @@ from .models import Player, Game, PlayerGameInfo
 
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'user_session')
+    list_display = ('pk',)
     ordering = ['-pk']
 
 

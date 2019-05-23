@@ -2,14 +2,13 @@ from django.db import models
 
 
 class Player(models.Model):
-    user_session = models.CharField(max_length=96, default=0, verbose_name='Идентификатор сессии')
 
     class Meta:
         verbose_name = 'Игрок'
         verbose_name_plural = 'Игроки'
 
     def __str__(self):
-        return self.user_session
+        return str(self.pk)
 
 
 class Game(models.Model):
