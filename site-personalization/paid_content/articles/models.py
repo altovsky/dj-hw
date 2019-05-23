@@ -3,9 +3,7 @@ from django.db import models
 
 
 class Profile(models.Model):
-    # pass
     registered_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
-    # user_session = models.CharField(max_length=96, verbose_name='Идентификатор сессии')
     signed = models.BooleanField(default=False, verbose_name='Подписка')
 
     class Meta:
@@ -13,7 +11,6 @@ class Profile(models.Model):
         verbose_name_plural = 'Профили пользователей'
 
     def __str__(self):
-        print(1)
         return self.registered_user.username
 
 

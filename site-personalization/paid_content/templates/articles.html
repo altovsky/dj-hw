@@ -12,10 +12,9 @@
       {% for article in articles %}
         <h3>
           <a
-              {% if not article.paid or article.paid and is_signed %}
-                href="{{ article.pk }}/"
-{#                href="{{ site_path }}{{ article.pk }}/"#}
-              {% endif %}
+            {% if not article.paid or article.paid and is_signed %}
+              href={% url 'article' article.id %}
+            {% endif %}
           >
             {{ article.title }}
           </a>
