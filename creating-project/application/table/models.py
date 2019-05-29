@@ -30,3 +30,4 @@ class CSVPath(models.Model):
 
     class Meta:
         verbose_name = 'Путь'
+        verbose_name_plural = 'Путь'
