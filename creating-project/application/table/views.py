@@ -1,33 +1,33 @@
+import csv
 from django.shortcuts import render
 from django.views import View
-import csv
 
-from .models import TableSettings, FilePath
+from .models import TableSettings, CSVPath
 # Create your views here.
 
-CSV_FILENAME = 'phones.csv'
-FilePath = FilePath().get_path()
+csv_filename = 'phones.csv'
+csv_path = CSVPath().get_path()
 
-if FilePath == '' or FilePath != CSV_FILENAME:
-    FilePath().set_path(CSV_FILENAME)
+if csv_path == '' or csv_path != csv_filename:
+    CSVPath().set_path(csv_filename)
 else:
-    CSV_FILENAME = FilePath
+    csv_filename = csv_path
 
 columns = TableSettings.objects.values()
 
 if len(columns) == 0:
-    TableSettings.objects.create(name='id', width=1, index_number=1)
-    TableSettings.objects.create(name='name', width=3, index_number=2)
-    TableSettings.objects.create(name='price', width=2, index_number=3)
-    TableSettings.objects.create(name='release_date', width=2, index_number=4)
-    TableSettings.objects.create(name='lte_exists', width=1, index_number=5)
+    TableSettings.objects.create(name='id', width=1, index=1)
+    TableSettings.objects.create(name='name', width=3, index=2)
+    TableSettings.objects.create(name='price', width=2, index=3)
+    TableSettings.objects.create(name='release_date', width=2, index=4)
+    TableSettings.objects.create(name='lte_exists', width=1, index=5)
     columns = TableSettings.objects.values()
 
 
 class TableView(View):
 
     def get(self, request):
-        with open(CSV_FILENAME, 'rt') as csv_file:
+        with open(csv_filename, 'rt') as csv_file:
             header = []
             table = []
             table_reader = csv.reader(csv_file, delimiter=';')
@@ -39,5 +39,5 @@ class TableView(View):
                            for idx, value in enumerate(table_row)}
                     table.append(row)
 
-            result = render(request, 'table.html', {'columns': columns, 'table': table, 'csv_file': CSV_FILENAME})
+            result = render(request, 'table.html', {'columns': columns, 'table': table, 'csv_file': csv_filename})
         return result

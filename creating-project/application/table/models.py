@@ -4,9 +4,9 @@ from django.db import models
 
 
 class TableSettings(models.Model):
-    name = models.CharField(max_length=20)
-    width = models.IntegerField(default=1)
-    index = models.IntegerField(unique=True)
+    name = models.CharField(max_length=96, verbose_name='Имя')
+    width = models.IntegerField(default=1, verbose_name='Ширина')
+    index = models.IntegerField(unique=True, verbose_name='Порядковый номер')
 
     class Meta:
         verbose_name = 'Поле'
@@ -17,8 +17,8 @@ class TableSettings(models.Model):
         return f'{self.name}'
 
 
-class FilePath(models.Model):
-    path = models.FilePathField(path='/', recursive=True)
+class CSVPath(models.Model):
+    path = models.FilePathField(path='/', match='.+\.csv$', recursive=True)
 
     def get_path(self):
         return self.path
