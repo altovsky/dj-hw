@@ -8,10 +8,9 @@ GAME_STARTED = 1
 GAME_COMPLETED = 2
 
 template_name = 'home.html'
-context = {}
 
 
-def start_new_game(request):
+def start_new_game(request, context):
     new_game = Game(number=int(random.uniform(1, settings.RANDOM_NUMBER_RANGE)))
     new_game.save()
 
@@ -25,7 +24,7 @@ def start_new_game(request):
     request.session['game_identifier'] = new_game.pk
 
 
-def get_second_player(request):
+def get_second_player(request, context):
     current_game = Game.objects.get(game_state=GAME_CREATED)
     game_player = Player.objects.get(pk=request.session['player_id'])
     pgi = PlayerGameInfo(the_game=current_game)
@@ -41,7 +40,7 @@ def get_second_player(request):
     context['player_attempts'] = 0
 
 
-def get_creator_context(request, gm):
+def get_creator_context(request, gm, context):
     context['Who'] = 'Вы создатель игры.'
     context['is_creator'] = True
     context['number'] = gm.number
@@ -56,7 +55,7 @@ def get_creator_context(request, gm):
         context['is_over'] = False
 
 
-def get_second_player_context(request, gm, p_g_info):
+def get_second_player_context(request, gm, p_g_info, context):
     context['Who'] = f'Угадайте число от 1 до {settings.RANDOM_NUMBER_RANGE}'
     context['is_creator'] = False
 
@@ -97,7 +96,7 @@ def get_second_player_context(request, gm, p_g_info):
 
 
 def show_home(request):
-
+    context = {}
     # Если нет такого пользователя, то создаем
     if 'player_id' not in request.session:
         new_player = Player()
@@ -113,11 +112,11 @@ def show_home(request):
 
         except Game.DoesNotExist:
             # Если нет уже созданной игры, к которой можно присоединиться, то создаем новую игру
-            start_new_game(request)
+            start_new_game(request, context)
 
         else:
             # Тогда присоединяем к игре второго игрока
-            get_second_player(request)
+            get_second_player(request, context)
 
         finally:
             request.session.save()
@@ -140,11 +139,11 @@ def show_home(request):
 
         # Если создатель игры
         if request.session['game_creator']:
-            get_creator_context(request, gm)
+            get_creator_context(request, gm, context)
 
         # Тогда это второй игрок
         else:
-            get_second_player_context(request, gm, p_g_info)
+            get_second_player_context(request, gm, p_g_info, context)
 
     return render(
         request,
